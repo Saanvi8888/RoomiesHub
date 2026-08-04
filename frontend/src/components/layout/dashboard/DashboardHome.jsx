@@ -95,7 +95,6 @@ export default function DashboardHome() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Recent activity */}
         <div className="lg:col-span-3 bg-white/5 border border-white/10 rounded-xl overflow-hidden">
           <div className="flex items-center justify-between px-5 pt-4 pb-2">
             <div className="flex gap-3 items-center">
@@ -128,14 +127,12 @@ export default function DashboardHome() {
           </div>
         </div>
 
-        {/* Members */}
         <div className="lg:col-span-1 bg-white/5 border border-white/10 rounded-xl overflow-hidden">
           <div className="flex items-center justify-between px-5 pt-4 pb-2">
             <div className="flex gap-3 items-center">
               <Users size={15} />
               <h3 className="text-md font-semibold text-white">Members</h3>
             </div>
-            {/* <button className="text-[#8d79ff] text-xs hover:text-[#a89ef5] transition">Manage</button> */}
           </div>
           <div className="divide-y divide-white/5">
             {currentHouse?.members?.length === 0 ? (
@@ -145,11 +142,11 @@ export default function DashboardHome() {
                 <div key={member._id} className="flex items-center gap-3 px-5 py-4 hover:bg-white/[0.03] transition">
                   <div className="w-10 h-10 rounded-full bg-[#2a2538] text-[#a89ef5] flex items-center justify-center text-xs font-medium shrink-0">
                     {member.name
-  ?.split(" ")
-  .map(word => word[0])
-  .join("")
-  .slice(0,2)
-  .toUpperCase()}
+                      ?.split(" ")
+                      .map(word => word[0])
+                      .join("")
+                      .slice(0,2)
+                      .toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-white/80 truncate">{member.name}</p>
@@ -164,7 +161,6 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      {/* Modal for All Activities */}
       {showAllActivities && (
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="w-full max-w-2xl bg-[#1a1c1c] border border-white/15 rounded-2xl p-6 shadow-2xl max-h-[80vh] overflow-y-auto">

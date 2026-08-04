@@ -20,6 +20,7 @@ import { ReminderProvider } from './context/ReminderContext';
 import Reminder from './components/layout/reminder/Reminder';
 import Profile from './components/layout/dashboard/Profile/ProfileCard';
 import { AIProvider } from './context/AIContext';
+import { NotificationProvider } from './context/NotificationContext';
 const Protected = ({children}) => {
   const {user} = useAuth();
   return user? children:<Navigate to="/login" replace />
@@ -35,6 +36,7 @@ const App = () => {
     <InventoryProvider>
     <NoteProvider>
     <ReminderProvider>
+    <NotificationProvider>
     <AIProvider>
       <Routes>
       
@@ -62,6 +64,7 @@ const App = () => {
         </Route>
       </Routes>
       </AIProvider>
+      </NotificationProvider>
       </ReminderProvider>
       </NoteProvider>
       </InventoryProvider>

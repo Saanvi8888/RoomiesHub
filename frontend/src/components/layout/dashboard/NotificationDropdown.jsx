@@ -1,20 +1,14 @@
 import { useEffect, useRef } from "react";
 import moment from "moment";
 import { Bell } from "lucide-react";
+import { useNotification } from "../../../context/NotificationContext";
 
-export default function NotificationDropdown({
-  notifications,
-  showNotifications,
-  setShowNotifications,
-}) {
+export default function NotificationDropdown({notifications,showNotifications,setShowNotifications}) {
   const dropdownRef = useRef(null);
-
+  const {markAsRead} = useNotification();
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowNotifications(false);
       }
     };
@@ -22,10 +16,7 @@ export default function NotificationDropdown({
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
+      document.removeEventListener("mousedown",handleClickOutside);
     };
   }, [setShowNotifications]);
 
@@ -61,10 +52,12 @@ export default function NotificationDropdown({
               notifications.map((notification) => (
                 <div
                   key={notification._id}
-                  className={`px-4 py-3 border-b border-white/5 hover:bg-white/5 transition ${
-                    !notification.read
-                      ? "bg-white/[0.03]"
-                      : ""
+                  onClick={() => {
+                    if (!notification.read) {
+                      markAsRead(notification._id);
+                    }
+                  }}
+                  className={`px-4 py-3 border-b border-white/5 hover:bg-white/5 transition cursor-pointer ${!notification.read? "bg-white/[0.03]": ""
                   }`}
                 >
                   <p className="text-sm text-white">

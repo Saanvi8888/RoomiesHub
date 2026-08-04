@@ -7,20 +7,13 @@ import NotesGrid from "./NotesGrid";
 import NoteModal from "./NoteModal";
 
 const Notes = () => {
-  const { notes, loading, createNote, getNotes, updateNote, deleteNote } =
-    useNotes();
-
+  const { notes, loading, createNote, getNotes, updateNote, deleteNote } =useNotes();
   const { houseId } = useParams();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
-
   const [isCreating, setIsCreating] = useState(false);
-
   const [editingId, setEditingId] = useState(null);
-
   const [editData, setEditData] = useState({
     title: "",
     content: "",
@@ -32,38 +25,28 @@ const Notes = () => {
     if (houseId) getNotes(houseId);
   }, [houseId]);
 
-  const pinnedNotes = useMemo(
-    () => notes.filter((n) => n.isPinned),
-    [notes]
-  );
+  const pinnedNotes = useMemo(() => notes.filter((n) => n.isPinned)
+  ,[notes]);
 
-  const otherNotes = useMemo(
-    () => notes.filter((n) => !n.isPinned),
-    [notes]
-  );
+  const otherNotes = useMemo(() => notes.filter((n) => !n.isPinned),
+    [notes]);
 
   const handleCreate = async (e) => {
     e.preventDefault();
-
     if (!newTitle.trim()) return;
-
     setIsCreating(true);
-
     await createNote(houseId, {
       title: newTitle,
       content: newContent,
     });
-
     setNewTitle("");
     setNewContent("");
-
     setIsModalOpen(false);
     setIsCreating(false);
   };
 
   const handleEdit = (note) => {
     setEditingId(note._id);
-
     setEditData({
       title: note.title,
       content: note.content,
@@ -94,8 +77,6 @@ const Notes = () => {
 
   return (
     <div className="space-y-8 relative pb-28">
-      {/* Header */}
-
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">
@@ -126,8 +107,6 @@ const Notes = () => {
         onDelete={handleDelete}
         onPin={handlePin}
       />
-
-      {/* Floating Buttons */}
 
       <div className="fixed bottom-28 right-6 z-50 flex flex-col gap-3">
         <button

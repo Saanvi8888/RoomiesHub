@@ -1,10 +1,6 @@
 import { ArrowRight } from "lucide-react";
 
-export default function SettlementList({
-  settlements,
-  user,
-  getInitials,
-}) {
+export default function SettlementList({settlements,user,getInitials}) {
   return (
     <div>
       <div className="flex items-center justify-between px-3 pt-4 pb-2">

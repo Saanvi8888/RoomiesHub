@@ -1,22 +1,11 @@
 import { Wallet, X } from "lucide-react";
 
-export default function ExpenseModal({
-  showModal,
-  setShowModal,
-  isEditing,
-  title,
-  amount,
-  setTitle,
-  setAmount,
-  resetForm,
-  onSubmit,
-}) {
+export default function ExpenseModal({showModal,setShowModal,isEditing,title,amount,setTitle,setAmount,resetForm,onSubmit}) {
   if (!showModal) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 backdrop-blur-sm">
       <div className="w-full max-w-md bg-[#1a1c1c] border border-white/15 rounded-2xl p-6 shadow-2xl">
-        {/* Header */}
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-3">
             <Wallet size={20} className="text-[#7F77DD]" />
@@ -37,7 +26,6 @@ export default function ExpenseModal({
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="text-sm font-mono text-white/60 block mb-2">

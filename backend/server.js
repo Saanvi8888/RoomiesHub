@@ -6,8 +6,6 @@ const dotenv= require("dotenv")
 dotenv.config();
 const connectDB = require("./config/db")
 const cors = require("cors");  
-
-
 const authRoutes = require("./routes/authRoutes");
 const houseRoutes = require("./routes/houseRoutes");
 const expenseRoutes = require("./routes/expenseRoutes")

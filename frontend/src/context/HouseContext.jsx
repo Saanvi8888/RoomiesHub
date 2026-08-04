@@ -9,7 +9,7 @@ export const HouseProvider = ({ children }) => {
   const [currentHouse, setCurrentHouse] = useState(null);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-
+  const [houseLoaded,setHouseLoaded] = useState(false);
   useEffect(() => {
     if (user) {
       getAllHouses();
@@ -27,6 +27,7 @@ export const HouseProvider = ({ children }) => {
       throw error;
     } finally {
       setLoading(false);
+      setHouseLoaded(true);
     }
   };
   const getHouse = async (houseId) => {
@@ -88,6 +89,7 @@ export const HouseProvider = ({ children }) => {
     <HouseContext.Provider
       value={{
         houses,
+        houseLoaded,
         currentHouse,
         loading,
         getAllHouses,

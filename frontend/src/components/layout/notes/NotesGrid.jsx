@@ -1,11 +1,4 @@
-import {
-  Pin,
-  Pencil,
-  Trash2,
-  Save,
-  X,
-  Sparkles,
-} from "lucide-react";
+import { Pin,Pencil,Trash2,Save,X,Sparkles} from "lucide-react";
 
 const noteThemes = [
   { card: "bg-amber-50/80 border-amber-200/40", tape: "bg-amber-300/60" },
@@ -23,20 +16,7 @@ const rotations = [
   "rotate-[2deg]",
 ];
 
-export default function NotesGrid({
-  loading,
-  notes,
-  pinnedNotes,
-  otherNotes,
-  editingId,
-  editData,
-  setEditData,
-  setEditingId,
-  onEdit,
-  onSave,
-  onDelete,
-  onPin,
-}) {
+export default function NotesGrid({loading,notes,pinnedNotes,otherNotes,editingId,editData,setEditData,setEditingId,onEdit,onSave,onDelete,onPin}) {
   const renderNotes = (notesArray) =>
     notesArray.map((note, index) => {
       const theme = noteThemes[index % noteThemes.length];
@@ -54,7 +34,6 @@ export default function NotesGrid({
           <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_1px_1px,#000_1px,transparent_0)] bg-[length:20px_20px] pointer-events-none" />
 
           <div className="relative flex h-full min-h-[220px] flex-col p-4">
-            {/* Header */}
             <div className="mb-3 flex items-center justify-between">
               <button
                 onClick={() => onPin(note)}
@@ -104,7 +83,6 @@ export default function NotesGrid({
               </div>
             </div>
 
-            {/* Body */}
             <div className="flex-1">
               {editingId === note._id ? (
                 <div className="space-y-2">
@@ -145,7 +123,6 @@ export default function NotesGrid({
               )}
             </div>
 
-            {/* Footer */}
             <div className="mt-2 flex items-center justify-between border-t border-black/10 pt-2 text-[10px] text-gray-600">
               <div>
                 <p className="font-medium text-gray-800">

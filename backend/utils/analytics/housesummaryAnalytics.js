@@ -28,10 +28,7 @@ const getHouseSummary = async (houseId) => {
   ]);
 
   return {
-    totalSpent:
-      totalExpenses.length > 0
-        ? totalExpenses[0].total
-        : 0,
+    totalSpent:totalExpenses.length > 0  ? totalExpenses[0].total  : 0,
     expenseCount,
     inventoryCount,
     noteCount,
@@ -39,6 +36,4 @@ const getHouseSummary = async (houseId) => {
   };
 };
 
-module.exports = {
-  getHouseSummary,
-};
+module.exports = {getHouseSummary};

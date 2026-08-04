@@ -41,7 +41,6 @@ export default function Reminder() {
     });
 
     await fetchReminders(houseId, formatDateOnly(selectedDate));
-
     setTitle("");
     setDescription("");
     setTime("12:00");

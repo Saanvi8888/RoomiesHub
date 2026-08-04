@@ -1,18 +1,7 @@
 import { Bell, X } from "lucide-react";
 
-export default function ReminderModal({
-  showModal,
-  setShowModal,
-  title,
-  setTitle,
-  description,
-  setDescription,
-  time,
-  setTime,
-  handleCreateReminder,
-}) {
+export default function ReminderModal({showModal,setShowModal,title,setTitle,description,setDescription,time,setTime,handleCreateReminder}) {
   if (!showModal) return null;
-
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 backdrop-blur-sm">
       <div className="w-full max-w-md bg-[#1a1c1c] border border-white/15 rounded-2xl p-6 shadow-2xl">

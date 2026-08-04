@@ -1,21 +1,11 @@
 import { StickyNote, Send, X } from "lucide-react";
 
-export default function NoteModal({
-  isModalOpen,
-  setIsModalOpen,
-  newTitle,
-  setNewTitle,
-  newContent,
-  setNewContent,
-  isCreating,
-  handleCreate,
-}) {
+export default function NoteModal({isModalOpen,setIsModalOpen,newTitle,setNewTitle,newContent,setNewContent,isCreating,handleCreate}) {
   if (!isModalOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 backdrop-blur-sm">
       <div className="w-full max-w-md bg-[#1a1c1c] border border-white/15 rounded-2xl p-6 shadow-2xl">
-        {/* Header */}
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-3">
             <StickyNote size={20} className="text-[#7F77DD]" />
@@ -34,9 +24,7 @@ export default function NoteModal({
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleCreate} className="space-y-4">
-          {/* Title */}
           <div>
             <label className="text-sm font-mono text-white/60 block mb-2">
               TITLE
@@ -53,7 +41,6 @@ export default function NoteModal({
             />
           </div>
 
-          {/* Content */}
           <div>
             <label className="text-sm font-mono text-white/60 block mb-2">
               MESSAGE
@@ -69,7 +56,6 @@ export default function NoteModal({
             />
           </div>
 
-          {/* Buttons */}
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"

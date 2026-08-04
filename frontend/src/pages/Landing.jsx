@@ -7,7 +7,7 @@ import { useHouse } from '../context/HouseContext';
 const Landing = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { houses, getAllHouses, loading } = useHouse();
+  const { houses, getAllHouses, loading,houseLoaded } = useHouse();
   const howItWorksRef = useRef();
 
   const scrollToHowItWorks = () => {
@@ -19,13 +19,13 @@ const Landing = () => {
   }, [user, getAllHouses]);
 
   useEffect(() => {
-    if (!user || loading) return;
+    if (!user || !houseLoaded) return;
     if (houses.length > 0) {
       navigate(`/house/${houses[0]._id}/dashboard`, { replace: true });
     } else {
       navigate('/welcome', { replace: true });
     }
-  }, [user, houses, loading, navigate]);
+  }, [user, houses, houseLoaded, navigate]);
 
   const features = [
     {

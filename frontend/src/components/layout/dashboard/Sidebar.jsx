@@ -1,22 +1,7 @@
-
-import {
-  Home,
-  Wallet,
-  StickyNote,
-  Bell,
-  Settings,
-  Plus,
-  Boxes,
-} from "lucide-react";
+import {Home,Wallet,StickyNote,Bell,Settings,Plus,Boxes} from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export default function Sidebar({
-  sidebarOpen,
-  setSidebarOpen,
-  houseId,
-  houses,
-  currentHouse,
-}) {
+export default function Sidebar({sidebarOpen,setSidebarOpen,houseId,houses,currentHouse}) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -55,13 +40,8 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`fixed md:sticky top-0 left-0 z-50 md:z-auto min-h-screen w-[280px] bg-[#1b1b1b] border-r border-white/5 flex flex-col transition-transform duration-300 ease-out mb-7 ${
-        sidebarOpen
-          ? "translate-x-0"
-          : "-translate-x-full md:translate-x-0"
-      }`}
+      className={`fixed md:sticky top-0 left-0 z-50 md:z-auto min-h-screen w-[280px] bg-[#1b1b1b] border-r border-white/5 flex flex-col transition-transform duration-300 ease-out mb-7 ${sidebarOpen? "translate-x-0": "-translate-x-full md:translate-x-0"}`}
     >
-      {/* Logo */}
       <div className="px-6 py-7 border-b border-white/5 text-center">
         <div className="flex items-center justify-center gap-3">
           <h1 className="text-2xl font-bold tracking-tight">
@@ -73,18 +53,14 @@ export default function Sidebar({
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="px-4 py-6 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon;
-
           const fullPath = item.path
             ? `/house/${houseId}/dashboard/${item.path}`
             : `/house/${houseId}/dashboard`;
 
-          const isActive =
-            location.pathname === fullPath;
-
+          const isActive =location.pathname === fullPath;
           return (
             <button
               key={item.name}
@@ -93,9 +69,7 @@ export default function Sidebar({
                 setSidebarOpen(false);
               }}
               className={`w-full flex items-center gap-4 px-4 py-2.5 rounded-xl transition-all duration-200 ${
-                isActive
-                  ? "bg-white/10 text-[#6b4eff]"
-                  : "text-white/70 hover:bg-white/5 hover:text-white"
+                isActive? "bg-white/10 text-[#6b4eff]": "text-white/70 hover:bg-white/5 hover:text-white"
               }`}
             >
               <Icon size={20} />
@@ -108,7 +82,6 @@ export default function Sidebar({
         })}
       </div>
 
-      {/* Houses */}
       <div className="mt-2 px-6 flex-1">
         <p className="text-[11px] font-semibold tracking-wider text-white/40 uppercase mb-4">
           Your houses

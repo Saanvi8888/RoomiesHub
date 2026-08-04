@@ -1,16 +1,6 @@
 import { Pencil, Trash2, ArrowRight } from "lucide-react";
 
-export default function ExpenseList({
-  expenses,
-  loading,
-  user,
-  showAllExpenses,
-  setShowAllExpenses,
-  onEdit,
-  onDelete,
-  getInitials,
-  formatDate,
-}) {
+export default function ExpenseList({expenses,loading,user,showAllExpenses,setShowAllExpenses,onEdit,onDelete,getInitials,formatDate}) {
   return (
     <div>
       <div className="flex items-center justify-between px-3 pt-4 pb-2">

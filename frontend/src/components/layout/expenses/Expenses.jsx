@@ -9,30 +9,14 @@ import ExpenseModal from "./ExpenseModal";
 
 export default function Expenses() {
   const { houseId } = useParams();
-
-  const {
-    expenses,
-    balances,
-    settlements,
-    loading,
-    getExpenses,
-    getBalances,
-    getSettlements,
-    addExpense,
-    updateExpense,
-    deleteExpense,
-  } = useExpense();
-
+  const {expenses,balances,settlements,loading,getExpenses,getBalances,getSettlements,addExpense,updateExpense,deleteExpense} = useExpense();
   const { user } = useAuth();
-
   const [showAllExpenses, setShowAllExpenses] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [currentExpenseId, setCurrentExpenseId] = useState(null);
-
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-
   const [youOwe, setYouOwe] = useState(0);
   const [youAreOwed, setYouAreOwed] = useState(0);
 
@@ -90,7 +74,6 @@ export default function Expenses() {
 
   const handleUpdateExpense = async (e) => {
     e.preventDefault();
-
     await updateExpense(currentExpenseId, {
       title,
       amount: Number(amount),
@@ -142,8 +125,6 @@ export default function Expenses() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">
@@ -166,8 +147,6 @@ export default function Expenses() {
           Add Expense
         </button>
       </div>
-
-      {/* Stats */}
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white/5 border border-[#413e5f] rounded-2xl p-5 backdrop-blur-sm border-b-4 border-b-[#dbd8ff]">

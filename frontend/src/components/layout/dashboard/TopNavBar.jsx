@@ -1,25 +1,14 @@
-import {
-  Menu,
-  Users,
-  CalendarDays,
-} from "lucide-react";
+import {Menu,Users,CalendarDays} from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import NotificationDropdown from "./NotificationDropdown";
+import { useNotification } from "../../../context/NotificationContext";
+export default function TopNavbar({currentHouse,setSidebarOpen,user,houseId,navigate,handleLogout}) {
 
-export default function TopNavbar({
-  currentHouse,
-  notifications,
-  showNotifications,
-  setShowNotifications,
-  setSidebarOpen,
-  user,
-  houseId,
-  navigate,
-  handleLogout,
-}) {
+  const [showNotifications,setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const profileRef = useRef(null);
-
+  const {notifications} = useNotification();
+  
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -41,7 +30,6 @@ export default function TopNavbar({
 
   return (
     <div className="sticky top-0 z-30 bg-[#171717]/90 backdrop-blur-md border-b border-white/5 px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
-      {/* Left */}
       <div className="flex items-center gap-4 min-w-0">
         <button
           className="lg:hidden p-1 rounded-lg hover:bg-white/5 transition"
@@ -78,7 +66,6 @@ export default function TopNavbar({
         </div>
       </div>
 
-      {/* Right */}
       <div className="flex items-center gap-3">
 
         <div className="hidden sm:flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white/60 text-sm">

@@ -1,10 +1,4 @@
-import {
-   createContext,
-   useContext,
-   useState,
-   useRef,
-} from "react";
-
+import {createContext,useContext,useState,useRef} from "react";
 import { reminderAPI } from "../api/axios";
 
 const ReminderContext = createContext();
@@ -17,22 +11,12 @@ export const ReminderProvider = ({ children }) => {
 
    const fetchReminders = async (houseId, date) => {
       const requestId = ++requestIdRef.current;
-
       try {
          setLoading(true);
-
-         const normalizedDate = new Date(date)
-            .toISOString()
-            .split("T")[0];
-
-         const res = await reminderAPI.getRemindersByDate(
-            houseId,
-            normalizedDate
-         );
+         const normalizedDate = new Date(date).toISOString().split("T")[0];
+         const res = await reminderAPI.getRemindersByDate(houseId,normalizedDate);
          if (requestId !== requestIdRef.current) return;
-
          setReminders(res.data || []);
-
       } catch (error) {
          console.log("fetchReminders error:", error);
       } finally {
@@ -43,45 +27,34 @@ export const ReminderProvider = ({ children }) => {
    };
 
 
-const createReminder = async (houseId, reminderData) => {
-   try {
-      const res = await reminderAPI.createReminder(
-         houseId,
-         reminderData
-      );
-
-      setReminders((prev) => [...prev, res.data]);
-
-      return res.data;
-   } catch (error) {
-      console.log(error);
-   }
-};
+   const createReminder = async (houseId, reminderData) => {
+      try {
+         const res = await reminderAPI.createReminder(houseId,reminderData);
+         setReminders((prev) => [...prev, res.data]);
+         return res.data;
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
   const completeReminder = async (reminderId) => {
-   try {
-      const res = await reminderAPI.completeReminder(reminderId);
-
-      setReminders((prev) =>
-         prev.map((r) => (r._id === reminderId ? res.data : r))
-      );
-   } catch (error) {
-      console.log(error);
-   }
-};
+      try {
+         const res = await reminderAPI.completeReminder(reminderId);
+         setReminders((prev) =>prev.map((r) => (r._id === reminderId ? res.data : r)));
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
 
    const removeReminder = async (reminderId) => {
-   try {
-      await reminderAPI.deleteReminder(reminderId);
-
-      setReminders((prev) =>
-         prev.filter((r) => r._id !== reminderId)
-      );
-   } catch (error) {
-      console.log(error);
-   }
-};
+      try {
+         await reminderAPI.deleteReminder(reminderId);
+         setReminders((prev) =>prev.filter((r) => r._id !== reminderId));
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
    return (
       <ReminderContext.Provider

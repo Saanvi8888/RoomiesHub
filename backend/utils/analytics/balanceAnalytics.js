@@ -54,7 +54,6 @@ const calculateSettlements = async (houseId) => {
     visited.add(reverseKey);
 
     if (Math.abs(netAmount) < 0.01) continue;
-
     settlements.push({
       from: netAmount > 0 ? users[from] : users[to],
       to: netAmount > 0 ? users[to] : users[from],

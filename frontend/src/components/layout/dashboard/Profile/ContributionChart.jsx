@@ -19,10 +19,7 @@ export default function ContributionChart() {
         { label: "Notes", value: 0, count: 0 },
       ];
     }
-    const userExpenseCount = expenses.filter((expense) =>
-        expense.paidBy?._id === user.id
-    ).length;
-
+    const userExpenseCount = expenses.filter((expense) =>expense.paidBy?._id === user.id).length;
     const userInventoryCount = items.filter((item) => {
       const addedById =item?.addedBy?._id 
       return addedById === user.id;
@@ -53,19 +50,19 @@ export default function ContributionChart() {
             label: "Inventory",
             value: inventoryPercentage,
             count: userInventoryCount,
-            color: "bg-emerald-500", // Green
+            color: "bg-emerald-500", 
         },
         {
             label: "Notes",
             value: notesPercentage,
             count: userNotesCount,
-            color: "bg-amber-500", // Orange
+            color: "bg-amber-500", 
         },
         {
             label: "Reminders",
             value: reminderPercentage,
             count: userReminderCount,
-            color: "bg-yellow-500", // Orange
+            color: "bg-yellow-500", 
         },
     ];
   }, [user, expenses, items, notes,reminders]);

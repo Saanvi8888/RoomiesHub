@@ -46,20 +46,18 @@ export const ExpenseProvider = ({children,}) => {
       setLoading(false);
     }
   };
- const deleteExpense = async (expenseId) => {
-  try {
-    setLoading(true);
-    await expenseAPI.deleteExpense(expenseId);
-    setExpenses((prev) =>
-      prev.filter((expense) => expense._id !== expenseId)
-    );
 
-  } catch (error) {
-    console.log(error.response?.data?.message);
-  } finally {
-    setLoading(false);
-  }
-};
+ const deleteExpense = async (expenseId) => {
+    try {
+      setLoading(true);
+      await expenseAPI.deleteExpense(expenseId);
+      setExpenses((prev) =>prev.filter((expense) => expense._id !== expenseId));
+    } catch (error) {
+      console.log(error.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getBalances = async (houseId) => {
     try {
@@ -77,8 +75,7 @@ export const ExpenseProvider = ({children,}) => {
   const getSettlements = async ( houseId) => {
     try {
       setLoading(true);
-      const { data } =
-        await expenseAPI.getSettlements(houseId);
+      const { data } = await expenseAPI.getSettlements(houseId);
       setSettlements(data);
       return data;
     } catch (error) {
