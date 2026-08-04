@@ -39,8 +39,7 @@ function buildBackendResponse(intent, data, userName) {
 
 exports.answerQuestion = async (question,houseId,userName) => {
   const intent = detectIntent(question);
-  console.log("Intent:", intent);
-  console.log("HouseId:", houseId);
+  
   let data;
   switch (intent) {
     case "BALANCES":

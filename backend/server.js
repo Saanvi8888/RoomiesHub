@@ -18,32 +18,43 @@ const aiRouter = require("./routes/aiRoutes");
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.CLIENT_URL,
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
+
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
   },
 });
 app.set("io", io);
 
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
-
 io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
 
   socket.on("joinHouse", (houseId) => {
     socket.join(houseId);
 
-    console.log(
-      `Socket ${socket.id} joined house ${houseId}`
-    );
+    
   });
 
   socket.on("disconnect", () => {
-    console.log("User disconnected");
   });
 });
 
@@ -60,6 +71,8 @@ app.use("/api/activity",activityRouter)
 app.use("/api/inventory",inventoryRouter)
 app.use("/api/notifications",notificationRouter);
 app.use("/api/ai",aiRouter);
-server.listen(5000,()=>{
-    console.log(`Server connected at Port 5000`)
-})
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
