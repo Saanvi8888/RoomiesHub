@@ -27,11 +27,9 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-
       callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
@@ -47,19 +45,14 @@ const io = new Server(server, {
 app.set("io", io);
 
 io.on("connection", (socket) => {
-
   socket.on("joinHouse", (houseId) => {
     socket.join(houseId);
-
-    
   });
-
   socket.on("disconnect", () => {
   });
 });
 
 app.use(express.json());
-
 connectDB();
 require("./utils/reminderCron");
 app.use("/api/auth",authRoutes)

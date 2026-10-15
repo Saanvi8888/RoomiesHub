@@ -1,5 +1,4 @@
 const { detectIntent } = require("./intentDetector");
-
 const { calculateSettlements } = require("./analytics/balanceAnalytics");
 const {getMonthlySpending,getTopContributor,} = require("./analytics/expenseAnalytics");
 const {getLowStockItems} = require("./analytics/inventoryAnalytics");
@@ -73,19 +72,20 @@ exports.answerQuestion = async (question,houseId,userName) => {
     "TOP_CONTRIBUTOR",
     "LOW_STOCK",
     "SPENDING",
+    "SUMMARY",
   ];
   if (intent === "GENERAL") {
     const prompt = `
-  You are RoomiesHub AI Assistant.
+      You are RoomiesHub AI Assistant.
 
-  Current User: ${userName}
+      Current User: ${userName}
 
-  Question:
-  ${question}
+      Question:
+      ${question}
 
-  Answer briefly. If the question is unrelated to house management,
-  say that you can help with expenses, balances, inventory and summaries.
-  `;
+      Answer briefly. If the question is unrelated to house management,
+      say that you can help with expenses, balances, inventory and summaries.
+      `;
 
     try {
       return await askGemini(prompt);

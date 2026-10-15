@@ -45,18 +45,35 @@ exports.joinHouse = async(req,res)=>{
     }
 }
 
-exports.getHouse = async(req,res)=>{
+// exports.getHouse = async(req,res)=>{
+//     try {
+//         const house = await House.findById(req.params.houseId).populate("members", "name email");
+//         if(!house){
+//             return res.status(404).json({ message: "House not found" });
+//         }
+//         res.json(house);
+//     } catch (error) {
+//         res.status(500).json({message:error.message})
+//     }
+// }
+exports.getHouse = async (req, res) => {
     try {
-        const house = await House.findById(req.params.houseId).populate("members", "name email");
-        if(!house){
+        const start = Date.now();
+
+        const house = await House.findById(req.params.houseId)
+            .populate("members", "name email");
+
+        console.log("getHouse DB time:", Date.now() - start, "ms");
+
+        if (!house) {
             return res.status(404).json({ message: "House not found" });
         }
+
         res.json(house);
     } catch (error) {
-        res.status(500).json({message:error.message})
+        res.status(500).json({ message: error.message });
     }
-}
-
+};
 exports.getAllHouses = async(req,res) =>{
     try {
         const houses = await House.find({

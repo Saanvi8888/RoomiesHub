@@ -27,11 +27,7 @@ exports.getNotifications = async (req, res) => {
 exports.markAsRead = async (req, res) => {
   try {
     const { notificationId } = req.params;
-    // const notification =await Notification.findByIdAndUpdate(notificationId,{read: true,},{new: true});
-    // if(!notification){
-    //   return res.status(404).json({message:"Noification not found",})
-    // }
-    // res.status(200).json(notification);
+   
     const notification = await Notification.findById(notificationId);
 
     if (!notification) {

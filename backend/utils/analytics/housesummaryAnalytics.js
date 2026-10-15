@@ -2,7 +2,7 @@ const Expense = require("../../models/expense");
 const Inventory = require("../../models/inventory");
 const Note = require("../../models/note");
 const Reminder = require("../../models/reminder");
-
+const mongoose = require("mongoose")
 const getHouseSummary = async (houseId) => {
   const [expenseCount,inventoryCount,noteCount,reminderCount] = await Promise.all([
     Expense.countDocuments({ house: houseId }),
@@ -14,9 +14,8 @@ const getHouseSummary = async (houseId) => {
   const totalExpenses = await Expense.aggregate([
     {
       $match: {
-        house: Expense.db.base.Types.ObjectId.createFromHexString(
-          houseId
-        ),
+        house: new mongoose.Types.ObjectId(houseId),
+        
       },
     },
     {

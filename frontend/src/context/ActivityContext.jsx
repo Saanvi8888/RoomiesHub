@@ -1,7 +1,5 @@
 import {createContext,useContext,useRef,useState,useCallback} from "react";
-
 import { activityAPI } from "../api/axios";
-
 const ActivityContext =createContext();
 
 export const ActivityProvider = ({children,}) => {

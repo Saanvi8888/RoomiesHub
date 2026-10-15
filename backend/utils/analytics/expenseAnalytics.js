@@ -19,22 +19,22 @@ const getMonthlySpending = async (houseId) => {
 const getTopContributor = async (houseId) => {
   const expenses = await Expense.find({ house: houseId }).populate("paidBy", "name");
   const contributions = {};
-  expenses.forEach((expense) => {const name = expense.paidBy.name;
+  expenses.forEach((expense) => {
+    const name = expense.paidBy.name;
     contributions[name] =(contributions[name] || 0) +expense.amount;
   });
 
   let topContributor = null;
   let maxAmount = 0;
 
-  Object.entries(contributions).forEach(
-    ([name, amount]) => {
+  Object.entries(contributions).forEach(([name, amount]) => {
       if (amount > maxAmount) {
         topContributor = name;
         maxAmount = amount;
       }
     }
   );
-  console.log("getTopContributor houseId:", houseId);
+  // console.log("getTopContributor houseId:", houseId);
   return {
     topContributor,
     amount: maxAmount,
