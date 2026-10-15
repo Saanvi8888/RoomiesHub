@@ -97,7 +97,8 @@ exports.getExpenses = async (req, res) => {
             .populate("paidBy", "name")
             .populate("participants", "name")
             .populate("shares.user", "name")
-            .sort({ createdAt: -1 });
+            .sort({ createdAt: -1 })
+            .lean();
 
         res.status(200).json(expenses);
 
@@ -191,7 +192,7 @@ exports.getBalances = async (req, res) => {
 exports.getSettlements = async (req, res) => {
   try {
     const { houseId } = req.params;
-    const house = await House.findOne({
+    const house = await House.exists({
         _id: houseId,
         members: req.user._id,
     });
@@ -201,11 +202,16 @@ exports.getSettlements = async (req, res) => {
             message: "Access denied",
         });
     }
-    const expenses = await Expense.find({
-      house: houseId,
-    })
+    // const expenses = await Expense.find({
+    //   house: houseId,
+    // })
+    //   .populate("paidBy", "name")
+    //   .populate("shares.user", "name");
+    const expenses = await Expense.find({ house: houseId })
+      .select("paidBy shares")
       .populate("paidBy", "name")
-      .populate("shares.user", "name");
+      .populate("shares.user", "name")
+      .lean();
 
     const settlements = simplifyDebts(expenses);
 
