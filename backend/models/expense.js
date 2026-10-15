@@ -45,5 +45,5 @@ const ExpenseSchema = new mongoose.Schema(
         
     },{timestamps:true}
 )
-
+ExpenseSchema.index({ house: 1, createdAt: -1 });
 module.exports = mongoose.model("Expense",ExpenseSchema);
