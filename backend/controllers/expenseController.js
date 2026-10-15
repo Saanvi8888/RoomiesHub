@@ -106,10 +106,51 @@ exports.getExpenses = async (req, res) => {
     }
 };
 
+// exports.getBalances = async (req, res) => {
+//     try {
+//         const { houseId } = req.params;
+//         const house = await House.findOne({
+//             _id: houseId,
+//             members: req.user._id,
+//         });
+
+//         if (!house) {
+//             return res.status(403).json({
+//                 message: "Access denied",
+//             });
+//         }
+//         const expenses = await Expense.find({ house: houseId })
+//             .populate("paidBy", "name")
+//             .populate("shares.user", "name");
+
+//         const balanceMap = {};
+
+//         for (const expense of expenses) {
+//             const payerId = expense.paidBy._id.toString();
+
+//             balanceMap[payerId] = (balanceMap[payerId] || 0) + expense.amount;
+
+//             for (const share of expense.shares) {
+//                 const uid = share.user._id.toString();
+
+//                 balanceMap[uid] = (balanceMap[uid] || 0) - share.amount;
+//             }
+//         }
+
+//         res.status(200).json(balanceMap);
+
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+
+
+
 exports.getBalances = async (req, res) => {
     try {
         const { houseId } = req.params;
-        const house = await House.findOne({
+
+        const house = await House.exists({
             _id: houseId,
             members: req.user._id,
         });
@@ -119,21 +160,24 @@ exports.getBalances = async (req, res) => {
                 message: "Access denied",
             });
         }
+
         const expenses = await Expense.find({ house: houseId })
-            .populate("paidBy", "name")
-            .populate("shares.user", "name");
+            .select("paidBy amount shares")
+            .lean();
 
         const balanceMap = {};
 
         for (const expense of expenses) {
-            const payerId = expense.paidBy._id.toString();
+            const payerId = expense.paidBy.toString();
 
-            balanceMap[payerId] = (balanceMap[payerId] || 0) + expense.amount;
+            balanceMap[payerId] =
+                (balanceMap[payerId] || 0) + expense.amount;
 
             for (const share of expense.shares) {
-                const uid = share.user._id.toString();
+                const uid = share.user.toString();
 
-                balanceMap[uid] = (balanceMap[uid] || 0) - share.amount;
+                balanceMap[uid] =
+                    (balanceMap[uid] || 0) - share.amount;
             }
         }
 
