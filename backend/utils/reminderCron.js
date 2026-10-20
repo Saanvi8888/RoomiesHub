@@ -18,9 +18,7 @@ cron.schedule("* * * * *", async () => {
          isCompleted: false,
          lastNotified: null,
       }).populate("assignedTo");
-      console.log(
-         `Reminder query: ${Date.now() - start}ms | Found: ${reminders.length}`
-      );
+      
       for (const reminder of reminders) {
          if (!reminder.assignedTo || reminder.assignedTo.length === 0) {
             console.log("No users for reminder:", reminder.title);
