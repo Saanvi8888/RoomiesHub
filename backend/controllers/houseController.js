@@ -83,25 +83,15 @@ exports.joinHouse = async(req,res)=>{
 
 exports.getHouse = async (req, res) => {
     try {
-        const totalStart = Date.now();
-
-        const start1 = Date.now();
+        const start = Date.now();
 
         const house = await House.findById(req.params.houseId);
 
-        console.log("House findById:", Date.now() - start1, "ms");
+        console.log("House only:", Date.now() - start, "ms");
 
         if (!house) {
             return res.status(404).json({ message: "House not found" });
         }
-
-        const start2 = Date.now();
-
-        await house.populate("members", "name email");
-
-        console.log("Members populate:", Date.now() - start2, "ms");
-
-        console.log("Total controller time:", Date.now() - totalStart, "ms");
 
         res.json(house);
 
