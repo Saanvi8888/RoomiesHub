@@ -83,15 +83,13 @@ exports.joinHouse = async(req,res)=>{
 
 exports.getHouse = async (req, res) => {
     try {
-        const start = Date.now();
-
         const house = await House.findById(req.params.houseId);
-
-        console.log("House only:", Date.now() - start, "ms");
 
         if (!house) {
             return res.status(404).json({ message: "House not found" });
         }
+
+        await house.populate("members", "name email");
 
         res.json(house);
 
