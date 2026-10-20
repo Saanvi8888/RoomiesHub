@@ -5,14 +5,22 @@ const sendEmail = require("./mailer");
 cron.schedule("* * * * *", async () => {
    try {
       const now = new Date();
+      const start = new Date();
+      // const reminders = await Reminder.find({
+      //    dueDate: {
+      //       $lte: now,
+      //       $gte: new Date(now.getTime() - 60 * 1000), 
+      //    },
+      //    isCompleted: false,
+      // }).populate("assignedTo");
       const reminders = await Reminder.find({
-         dueDate: {
-            $lte: now,
-            $gte: new Date(now.getTime() - 60 * 1000), 
-         },
+         dueDate: { $lte: now },
          isCompleted: false,
+         lastNotified: null,
       }).populate("assignedTo");
-
+      console.log(
+         `Reminder query: ${Date.now() - start}ms | Found: ${reminders.length}`
+      );
       for (const reminder of reminders) {
          if (!reminder.assignedTo || reminder.assignedTo.length === 0) {
             console.log("No users for reminder:", reminder.title);
@@ -42,7 +50,10 @@ cron.schedule("* * * * *", async () => {
       }
 
    } catch (error) {
-      console.error("Cron Error:", error.message);
+      
+      console.error("Cron Error:", error);
+      console.error("Error message:", error?.message);
+      console.error("Error stack:", error?.stack);
    }
 },{
    timezone: "Asia/Kolkata"

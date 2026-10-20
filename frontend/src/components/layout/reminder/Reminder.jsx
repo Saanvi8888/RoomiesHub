@@ -136,83 +136,85 @@ export default function Reminder() {
           </div>
         </div>
 
-        <div className="space-y-4">
-          <h2 className="text-sm uppercase tracking-wider text-white/40 font-semibold">
-            Day Tasks
-          </h2>
+        <div className="overflow-x-auto">
+          <div className="space-y-4">
+            <h2 className="text-sm uppercase tracking-wider text-white/40 font-semibold">
+              Day Tasks
+            </h2>
 
-          {loading ? (
-            <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
-              Loading...
-            </div>
-          ) : reminders.length === 0 ? (
-            <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
-              No reminders for this day
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {reminders.map((reminder) => (
-                <div
-                  key={reminder._id}
-                  className="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.03]"
-                >
-                  <div className="flex justify-between gap-4">
-                    <div className="flex-1">
-                      <h3 className="text-white font-semibold">
-                        {reminder.title}
-                      </h3>
+            {loading ? (
+              <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
+                Loading...
+              </div>
+            ) : reminders.length === 0 ? (
+              <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
+                No reminders for this day
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-[345px] overflow-y-auto pr-2">
+                {reminders.map((reminder) => (
+                  <div
+                    key={reminder._id}
+                    className="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/[0.03]"
+                  >
+                    <div className="flex justify-between gap-4">
+                      <div className="flex-1">
+                        <h3 className="text-white font-semibold">
+                          {reminder.title}
+                        </h3>
 
-                      <p className="text-sm text-white/40 mt-1">
-                        {reminder.description}
-                      </p>
+                        <p className="text-sm text-white/40 mt-1">
+                          {reminder.description}
+                        </p>
 
-                      <div className="flex gap-3 mt-3 text-xs text-white/40">
-                        <div className="flex items-center gap-1">
-                          <CalendarDays size={12} />
-                          {formatDate(reminder.dueDate)}
-                        </div>
+                        <div className="flex gap-3 mt-3 text-xs text-white/40">
+                          <div className="flex items-center gap-1">
+                            <CalendarDays size={12} />
+                            {formatDate(reminder.dueDate)}
+                          </div>
 
-                        <div className="flex items-center gap-1">
-                          <Clock3 size={12} />
-                          {formatTime(reminder.dueDate)}
+                          <div className="flex items-center gap-1">
+                            <Clock3 size={12} />
+                            {formatTime(reminder.dueDate)}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex flex-col gap-2">
-                      {!reminder.isCompleted && (
+                      <div className="flex flex-col gap-2">
+                        {!reminder.isCompleted && (
+                          <button
+                            onClick={async () => {
+                              await completeReminder(reminder._id);
+                              await fetchReminders(
+                                houseId,
+                                formatDateOnly(selectedDate)
+                              );
+                            }}
+                            className="p-2 rounded-lg bg-white/10 text-emerald-400"
+                          >
+                            <CheckCircle2 size={16} />
+                          </button>
+                        )}
+
                         <button
                           onClick={async () => {
-                            await completeReminder(reminder._id);
+                            await removeReminder(reminder._id);
                             await fetchReminders(
                               houseId,
                               formatDateOnly(selectedDate)
                             );
                           }}
-                          className="p-2 rounded-lg bg-white/10 text-emerald-400"
+                          className="p-2 rounded-lg bg-white/10 text-rose-400"
                         >
-                          <CheckCircle2 size={16} />
+                          <Trash2 size={16} />
                         </button>
-                      )}
-
-                      <button
-                        onClick={async () => {
-                          await removeReminder(reminder._id);
-                          await fetchReminders(
-                            houseId,
-                            formatDateOnly(selectedDate)
-                          );
-                        }}
-                        className="p-2 rounded-lg bg-white/10 text-rose-400"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           )}
+        </div>
         </div>
       </div>
 

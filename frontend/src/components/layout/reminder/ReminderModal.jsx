@@ -1,6 +1,6 @@
 import { Bell, X } from "lucide-react";
 
-export default function ReminderModal({showModal,setShowModal,title,setTitle,description,setDescription,time,setTime,handleCreateReminder}) {
+export default function ReminderModal({showModal,setShowModal,title,setTitle,description,setDescription,time,setTime,onSubmit}) {
   if (!showModal) return null;
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 backdrop-blur-sm">
@@ -21,7 +21,7 @@ export default function ReminderModal({showModal,setShowModal,title,setTitle,des
           </button>
         </div>
 
-        <form onSubmit={handleCreateReminder} className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="text-sm font-mono text-white/60 block mb-2">
               TITLE

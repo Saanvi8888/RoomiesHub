@@ -46,7 +46,7 @@ exports.createReminder = async (req, res) => {
         user: userId,
         type: "REMINDER_ADDED",
         message: `${req.user.name} added "${title}"`,
-        io,
+        req,
       });
       return res.status(201).json(reminder);
    } catch (error) {
@@ -125,7 +125,7 @@ exports.markCompleted = async (req, res) => {
             user: userId,
             type: "REMINDER_COMPLETED",
             message: `${req.user.name} completed "${reminder.title}"`,
-            io,
+            req,
         });
         return res.status(200).json(reminder);
     } catch (error) {
