@@ -141,7 +141,7 @@ export default function Expenses() {
             resetForm();
             setShowModal(true);
           }}
-          className="flex items-center justify-center gap-2 bg-[#4034c6] hover:bg-[#240d8b] text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200"
+          className="flex items-center justify-center gap-2 w-[70%] mx-auto sm:w-auto sm:mx-0 bg-[#4034c6] hover:bg-[#240d8b] text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200"
         >
           <Plus size={16} />
           Add Expense
@@ -206,6 +206,7 @@ export default function Expenses() {
 
       <SettlementList
         settlements={validSettlements}
+        loading={loading} 
         user={user}
         getInitials={getInitials}
       />

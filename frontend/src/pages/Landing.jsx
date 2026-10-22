@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useRef } from 'react';
+import React, {useRef } from 'react';
 import {ArrowRight,Bell,CircleDollarSign,CirclePile,House,NotebookText,Users,Share2,Sparkles} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useHouse } from '../context/HouseContext';
@@ -7,25 +7,12 @@ import { useHouse } from '../context/HouseContext';
 const Landing = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { houses, getAllHouses, loading,houseLoaded } = useHouse();
+  const { houses } = useHouse();
   const howItWorksRef = useRef();
 
   const scrollToHowItWorks = () => {
     howItWorksRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  useEffect(() => {
-    if (user) getAllHouses();
-  }, [user, getAllHouses]);
-
-  useEffect(() => {
-    if (!user || !houseLoaded) return;
-    if (houses.length > 0) {
-      navigate(`/house/${houses[0]._id}/dashboard`, { replace: true });
-    } else {
-      navigate('/welcome', { replace: true });
-    }
-  }, [user, houses, houseLoaded, navigate]);
 
   const features = [
     {

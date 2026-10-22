@@ -24,7 +24,16 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const {notifications,fetchNotifications,setNotifications} = useNotification();
  
+  useEffect(() => {
+  getHouse(houseId);
+  getAllHouses();
+}, [houseId]);
 
+useEffect(() => {
+  if (houseId) {
+    fetchNotifications(houseId);
+  }
+}, [houseId]);
   useEffect(() => {
     getHouse(houseId);
     getAllHouses();

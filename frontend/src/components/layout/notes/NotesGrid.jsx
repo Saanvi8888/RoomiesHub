@@ -1,5 +1,5 @@
 import { Pin,Pencil,Trash2,Save,X,Sparkles} from "lucide-react";
-
+import { NoteCardSkeleton } from "../../Skeleton";
 const noteThemes = [
   { card: "bg-amber-50/80 border-amber-200/40", tape: "bg-amber-300/60" },
   { card: "bg-rose-50/80 border-rose-200/40", tape: "bg-rose-300/60" },
@@ -171,8 +171,10 @@ export default function NotesGrid({loading,notes,pinnedNotes,otherNotes,editingI
         </div>
 
         {loading ? (
-          <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
-            Loading notes...
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <NoteCardSkeleton key={i} />
+            ))}
           </div>
         ) : notes.length === 0 ? (
           <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">

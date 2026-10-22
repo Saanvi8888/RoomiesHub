@@ -1,5 +1,7 @@
-import {Plus,Minus,Pencil,Trash2,Package} from "lucide-react";
-export default function InventoryList({items,loading,onIncrease,onDecrease,onEdit,onDelete}) {
+import { Plus, Minus, Pencil, Trash2, Package } from "lucide-react";
+import { InventoryRowSkeleton } from "../../Skeleton";
+
+export default function InventoryList({ items, loading, onIncrease, onDecrease, onEdit, onDelete }) {
   return (
     <div>
       <div className="flex items-center justify-between px-3 pt-4 pb-2">
@@ -9,8 +11,12 @@ export default function InventoryList({items,loading,onIncrease,onDecrease,onEdi
       </div>
 
       {loading ? (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
-          Loading inventory...
+        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+          <div className="divide-y divide-white/5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <InventoryRowSkeleton key={i} />
+            ))}
+          </div>
         </div>
       ) : items.length === 0 ? (
         <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">

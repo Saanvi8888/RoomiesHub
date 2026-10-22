@@ -25,7 +25,31 @@ const Protected = ({children}) => {
   const {user} = useAuth();
   return user? children:<Navigate to="/login" replace />
 }
+const HomeRedirect = () => {
+  const { user } = useAuth();
+  const {houses,houseLoaded,loading: houseLoading} = useHouse();
+  if (!user) {
+    return <Landing />;
+  }
 
+  if (!houseLoaded || houseLoading) {
+    return (
+      <div className="min-h-screen bg-[#1a1c1c] flex items-center justify-center text-white">
+        Loading your house...
+      </div>
+    );
+  }
+  if (houses.length > 0) {
+    return (
+      <Navigate
+        to={`/house/${houses[0]._id}/dashboard`}
+        replace
+      />
+    );
+  }
+
+  return <Navigate to="/welcome" replace />;
+};
 const App = () => {
   return (
   <BrowserRouter>
@@ -40,7 +64,8 @@ const App = () => {
     <AIProvider>
       <Routes>
       
-        <Route path="/" element={<Landing />} />
+        {/* <Route path="/" element={<Landing />} /> */}
+        <Route path="/" element={<HomeRedirect />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/welcome" element={<Welcome />} />

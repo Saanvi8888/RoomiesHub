@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useActivity } from "../../../context/ActivityContext";
 import { useHouse } from "../../../context/HouseContext";
+import { Bone, ActivityRowSkeleton, MemberRowSkeleton } from "../../Skeleton";
 
 export default function DashboardHome() {
   const { houseId } = useParams();
@@ -10,13 +11,16 @@ export default function DashboardHome() {
   const { getActivities, activities } = useActivity();
   const [copied, setCopied] = useState(false);
   const [showAllActivities, setShowAllActivities] = useState(false);
+  const [loadingActivities, setLoadingActivities] = useState(true);
+
+  const loadingHouse = !currentHouse;
 
   useEffect(() => {
-    if (houseId) {
-      getActivities(houseId);
-    }
+    if (!houseId) return;
+    setLoadingActivities(true);
+    Promise.resolve(getActivities(houseId)).finally(() => setLoadingActivities(false));
   }, [houseId, getActivities]);
-  
+
   const getIcon = (type) => {
     switch (true) {
       case type?.startsWith("EXPENSE"):
@@ -60,38 +64,46 @@ export default function DashboardHome() {
   return (
     <div className="space-y-8">
       <div className="bg-white/5 border border-white/10 rounded-2xl p-5 transition hover:bg-white/[0.07]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <House size={18} className="text-[#8d79ff]" />
-              <h2 className="text-xl font-bold text-white uppercase tracking-wide">
-                {currentHouse?.name}
-              </h2>
+        {loadingHouse ? (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-3">
+              <Bone className="h-6 w-48" />
+              <Bone className="h-3 w-56" />
             </div>
-            <div className="flex items-center gap-4 mt-2 text-white/50 text-xs">
-              <span className="flex items-center gap-1.5">
-                <Users size={12} />
-                {currentHouse?.members?.length} members
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Calendar size={12} />
-                Since {
-                  currentHouse &&
-                  new Date(currentHouse.createdAt).toLocaleDateString("en-IN", {
+            <Bone className="h-8 w-32 rounded-lg" />
+          </div>
+        ) : (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <House size={18} className="text-[#8d79ff]" />
+                <h2 className="text-xl font-bold text-white uppercase tracking-wide">
+                  {currentHouse.name}
+                </h2>
+              </div>
+              <div className="flex items-center gap-4 mt-2 text-white/50 text-xs">
+                <span className="flex items-center gap-1.5">
+                  <Users size={12} />
+                  {currentHouse.members?.length} members
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Calendar size={12} />
+                  Since{" "}
+                  {new Date(currentHouse.createdAt).toLocaleDateString("en-IN", {
                     month: "long",
                     year: "numeric",
-                  })
-                }
-              </span>
+                  })}
+                </span>
+              </div>
             </div>
+            <button
+              onClick={copyInviteCode}
+              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/50 hover:text-white transition shrink-0"
+            >
+              {copied ? "Copied!" : <><Copy size={12} /> Invite: {currentHouse.inviteCode}</>}
+            </button>
           </div>
-          <button
-            onClick={copyInviteCode}
-            className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/50 hover:text-white transition shrink-0"
-          >
-            {copied ? "Copied!" : <><Copy size={12} /> Invite: {currentHouse?.inviteCode}</>}
-          </button>
-        </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -109,7 +121,9 @@ export default function DashboardHome() {
             </button>
           </div>
           <div className="divide-y divide-white/5">
-            {activities.length === 0 ? (
+            {loadingActivities ? (
+              Array.from({ length: 5 }).map((_, i) => <ActivityRowSkeleton key={i} />)
+            ) : activities.length === 0 ? (
               <div className="text-center text-white/30 text-sm py-8">No recent activity yet.</div>
             ) : (
               activities.slice(0, 5).map((activity) => (
@@ -135,23 +149,25 @@ export default function DashboardHome() {
             </div>
           </div>
           <div className="divide-y divide-white/5">
-            {currentHouse?.members?.length === 0 ? (
+            {loadingHouse ? (
+              Array.from({ length: 3 }).map((_, i) => <MemberRowSkeleton key={i} />)
+            ) : currentHouse.members?.length === 0 ? (
               <div className="text-center text-white/30 text-sm py-6">No members yet.</div>
             ) : (
-              currentHouse?.members?.map((member) => (
+              currentHouse.members?.map((member) => (
                 <div key={member._id} className="flex items-center gap-3 px-5 py-4 hover:bg-white/[0.03] transition">
                   <div className="w-10 h-10 rounded-full bg-[#2a2538] text-[#a89ef5] flex items-center justify-center text-xs font-medium shrink-0">
                     {member.name
                       ?.split(" ")
-                      .map(word => word[0])
+                      .map((word) => word[0])
                       .join("")
-                      .slice(0,2)
+                      .slice(0, 2)
                       .toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-white/80 truncate">{member.name}</p>
                     <p className="text-white/40 text-xs">
-                      {member._id === currentHouse?.createdBy ? "Admin" : "Member"}
+                      {member._id === currentHouse.createdBy ? "Admin" : "Member"}
                     </p>
                   </div>
                 </div>
@@ -186,8 +202,8 @@ export default function DashboardHome() {
                       {getIcon(activity.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white/80 leading-relaxed">{activity.message}</p> 
-                    <p className="text-white/30 text-xs mt-0.5">{formatRelativeTime(activity.createdAt)}</p> 
+                      <p className="text-sm text-white/80 leading-relaxed">{activity.message}</p>
+                      <p className="text-white/30 text-xs mt-0.5">{formatRelativeTime(activity.createdAt)}</p>
                     </div>
                   </div>
                 ))

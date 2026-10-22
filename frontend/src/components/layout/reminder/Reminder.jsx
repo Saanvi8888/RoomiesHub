@@ -5,7 +5,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useReminder } from "../../../context/ReminderContext";
 import ReminderModal from "./ReminderModal";
-
+import { ReminderCardSkeleton } from "../../Skeleton";
 export default function Reminder() {
   const { houseId } = useParams();
   const {reminders,loading,selectedDate,setSelectedDate,fetchReminders,createReminder,completeReminder,removeReminder}=useReminder();
@@ -143,10 +143,12 @@ export default function Reminder() {
             </h2>
 
             {loading ? (
-              <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
-                Loading...
-              </div>
-            ) : reminders.length === 0 ? (
+                <div className="space-y-3 max-h-[345px] overflow-y-auto pr-2">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <ReminderCardSkeleton key={i} />
+                  ))}
+                </div>
+              ) : reminders.length === 0 ? (
               <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
                 No reminders for this day
               </div>

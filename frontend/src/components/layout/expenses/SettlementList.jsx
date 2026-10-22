@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
-
-export default function SettlementList({settlements,user,getInitials}) {
+import {SettlementRowSkeleton} from "../../Skeleton"
+export default function SettlementList({settlements,loading,user,getInitials}) {
   return (
     <div>
       <div className="flex items-center justify-between px-3 pt-4 pb-2">
@@ -8,8 +8,15 @@ export default function SettlementList({settlements,user,getInitials}) {
           Settlements
         </h3>
       </div>
-
-      {settlements.length === 0 ? (
+      {loading ? (
+          <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+            <div className="divide-y divide-white/5">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <SettlementRowSkeleton key={i} />
+              ))}
+            </div>
+          </div>
+        ) : settlements.length === 0 ? (
         <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
           No settlements pending.
         </div>

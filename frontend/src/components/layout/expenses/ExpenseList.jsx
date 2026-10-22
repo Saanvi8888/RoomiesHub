@@ -1,5 +1,5 @@
 import { Pencil, Trash2, ArrowRight } from "lucide-react";
-
+import {ExpenseRowSkeleton} from "../../Skeleton"
 export default function ExpenseList({expenses,loading,user,showAllExpenses,setShowAllExpenses,onEdit,onDelete,getInitials,formatDate}) {
   return (
     <div>
@@ -20,10 +20,14 @@ export default function ExpenseList({expenses,loading,user,showAllExpenses,setSh
       </div>
 
       {loading ? (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
-          Loading expenses...
-        </div>
-      ) : expenses.length === 0 ? (
+          <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+            <div className="divide-y divide-white/5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <ExpenseRowSkeleton key={i} />
+              ))}
+            </div>
+          </div>
+        ) : expenses.length === 0 ? (
         <div className="bg-white/5 border border-white/10 rounded-xl p-10 text-center text-white/40">
           No expenses added yet.
         </div>

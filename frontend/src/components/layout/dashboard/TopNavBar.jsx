@@ -43,7 +43,7 @@ export default function TopNavbar({currentHouse,setSidebarOpen,user,houseId,navi
             {currentHouse?.name}
           </h1>
 
-          <div className="flex items-center gap-5 mt-1 text-white/40 text-xs lg:text-sm">
+          <div className="sm:flex items-center gap-5 mt-1 text-white/40 text-xs lg:text-sm hidden">
             <div className="flex items-center gap-1.5">
               <Users size={14} />
               <span>{currentHouse?.members?.length} members</span>
