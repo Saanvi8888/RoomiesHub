@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useHouse } from "../context/HouseContext";
 import { useNavigate } from "react-router-dom";
-import { X, Copy, Check } from "lucide-react";
-
+import { X, Copy, Check, Share2, } from "lucide-react";
+import { shareOnWhatsApp } from "../utils/invite";
+import { useAuth } from "../context/AuthContext";
 export default function Welcome() {
   const [houseName, setHouseName] = useState("");
   const [inviteCode, setInviteCode] = useState("");
@@ -12,14 +13,14 @@ export default function Welcome() {
   const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
   const { createHouse, joinHouse } = useHouse();
-
+  const{logout}=useAuth();
   const handleCreateClick = () => {
     setHouseName("");
     setShowNameModal(true);
   };
 
   const handleLogout = () => {
-      localStorage.removeItem("token");
+      logout();
       navigate("/login");
     };
     
@@ -185,7 +186,7 @@ export default function Welcome() {
                   {createdHouse.inviteCode}
                 </div>
               </div>
-              <div className="flex gap-3 mt-6">
+              {/* <div className="flex gap-3 mt-6">
                 <button
                   onClick={handleCopyCode}
                   className="flex-1 flex items-center justify-center gap-2 border border-white/15 hover:bg-white/5 rounded-xl py-2.5 text-white/80 transition"
@@ -199,6 +200,32 @@ export default function Welcome() {
                 >
                   Continue
                 </button>
+              </div> */
+              }
+              <div className="mt-6 space-y-3">
+                <button
+                  onClick={() => shareOnWhatsApp(createdHouse)}
+                  className="w-[70%] mx-auto flex  items-center justify-center gap-2 border border-emerald-500/30 hover:bg-white/5 text-white rounded-xl py-2.5 font-medium shadow-lg  transition"
+                >
+                  <Share2 size={16} className="text-emerald-400"/>
+                  Share on WhatsApp
+                </button>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleCopyCode}
+                    className="flex-1 flex items-center justify-center gap-2 border border-white/15 hover:bg-white/5 rounded-xl py-2.5 text-white/80 transition"
+                  >
+                    {copied ? <Check size={16} /> : <Copy size={16} />}
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                  <button
+                    onClick={() => navigate(`/house/${createdHouse._id}/dashboard`)}
+                    className="flex-1 bg-violet-500 hover:bg-violet-600 text-white rounded-xl py-2.5 font-medium shadow-lg shadow-violet-500/20 transition"
+                  >
+                    Continue
+                  </button>
+                </div>
               </div>
             </div>
           </div>

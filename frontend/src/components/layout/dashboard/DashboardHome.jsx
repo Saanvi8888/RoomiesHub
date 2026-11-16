@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import { useActivity } from "../../../context/ActivityContext";
 import { useHouse } from "../../../context/HouseContext";
 import { Bone, ActivityRowSkeleton, MemberRowSkeleton } from "../../Skeleton";
-
+import { Share2 } from "lucide-react"; // add to existing lucide import
+import { shareOnWhatsApp } from "../../../utils/invite";
 export default function DashboardHome() {
   const { houseId } = useParams();
   const { currentHouse } = useHouse();
@@ -96,12 +97,27 @@ export default function DashboardHome() {
                 </span>
               </div>
             </div>
-            <button
+            {/* <button
               onClick={copyInviteCode}
               className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/50 hover:text-white transition shrink-0"
             >
               {copied ? "Copied!" : <><Copy size={12} /> Invite: {currentHouse.inviteCode}</>}
-            </button>
+            </button> */}
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={copyInviteCode}
+                className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white/50 hover:text-white transition"
+              >
+                {copied ? "Copied!" : <><Copy size={12} /> Invite: {currentHouse.inviteCode}</>}
+              </button>
+
+              <button
+                onClick={() => shareOnWhatsApp(currentHouse)}
+                className="flex items-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 rounded-lg px-3 py-1.5 text-xs text-emerald-400 transition"
+              >
+                <Share2 size={12} /> Share on WhatsApp
+              </button>
+            </div>
           </div>
         )}
       </div>

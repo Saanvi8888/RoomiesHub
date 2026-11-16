@@ -20,7 +20,7 @@ export default function DashboardLayout() {
   const location = useLocation();
 
   const {getHouse,currentHouse,houses,getAllHouses} = useHouse();
-  const {user}=useAuth()
+  const {user,logout}=useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const {notifications,fetchNotifications,setNotifications} = useNotification();
  
@@ -110,8 +110,8 @@ useEffect(() => {
     },
   ];
   const handleLogout = () => {
-      localStorage.removeItem("token");
-      navigate("/login");
+    logout();
+    navigate("/login", { replace: true });
   };
 
   return (
