@@ -25,20 +25,64 @@ const Protected = ({children}) => {
   const {user} = useAuth();
   return user? children:<Navigate to="/login" replace />
 }
+// const HomeRedirect = () => {
+//   const { user } = useAuth();
+//   const {houses,houseLoaded,loading: houseLoading} = useHouse();
+//   if (!user) {
+//     return <Landing />;
+//   }
+
+//   if (!houseLoaded || houseLoading) {
+//     return (
+//       <div className="min-h-screen bg-[#1a1c1c] flex items-center justify-center text-white">
+//         Loading your house...
+//       </div>
+//     );
+//   }
+//   if (houses.length > 0) {
+//     return (
+//       <Navigate
+//         to={`/house/${houses[0]._id}/dashboard`}
+//         replace
+//       />
+//     );
+//   }
+
+//   return <Navigate to="/welcome" replace />;
+// };
+
 const HomeRedirect = () => {
   const { user } = useAuth();
-  const {houses,houseLoaded,loading: houseLoading} = useHouse();
+  const { houses, houseLoaded, loading: houseLoading } = useHouse();
+
   if (!user) {
     return <Landing />;
   }
 
   if (!houseLoaded || houseLoading) {
     return (
-      <div className="min-h-screen bg-[#1a1c1c] flex items-center justify-center text-white">
-        Loading your house...
+      <div className="min-h-screen bg-[#1a1c1c] flex flex-col items-center justify-center text-white px-4">
+        <div className="flex flex-col items-center gap-5">
+
+          <div className="relative flex items-center justify-center">
+            <div className="h-14 w-14 rounded-full border-4 border-white/10 border-t-violet-700 animate-spin" />
+            <div className="absolute h-2 w-2 rounded-full bg-violet-700" />
+          </div>
+
+          <div className="text-center space-y-2">
+            <h2 className="text-lg font-semibold tracking-wide">
+              Setting up your living
+            </h2>
+            <p className="text-sm text-gray-400">
+              Fetching your house details...
+            </p>
+          </div>
+
+        </div>
       </div>
     );
   }
+
   if (houses.length > 0) {
     return (
       <Navigate
@@ -50,6 +94,7 @@ const HomeRedirect = () => {
 
   return <Navigate to="/welcome" replace />;
 };
+
 const App = () => {
   return (
   <BrowserRouter>

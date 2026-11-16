@@ -172,8 +172,8 @@ export default function Signup() {
               </div>
             </div>
 
-            <div className="flex justify-center w-full">
-              <div className="w-full">
+            <div className="flex justify-center items-center w-full">
+              <div className="flex justify-center w-full">
                 <GoogleLogin
                   onSuccess={handleGoogleSuccess}
                   onError={() => setError("Google signup failed")}
@@ -181,7 +181,7 @@ export default function Signup() {
                   size="medium"
                   text="signup_with"
                   shape="rectangular"
-                  width="100%"
+                  width={300}
                 />
               </div>
             </div>

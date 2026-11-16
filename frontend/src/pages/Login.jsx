@@ -130,8 +130,9 @@ export default function Login() {
               </div>
             </div>
 
-            <div className="flex justify-center w-full">
-              <div className="w-full">
+            
+            <div className="flex justify-center items-center w-full">
+              <div className="flex justify-center w-full max-w-[300px]">
                 <GoogleLogin
                   onSuccess={handleGoogleSuccess}
                   onError={() => setError("Google login failed")}
@@ -139,7 +140,7 @@ export default function Login() {
                   size="medium"
                   text="signin_with"
                   shape="rectangular"
-                  width="100%"
+                  width="300"
                 />
               </div>
             </div>
